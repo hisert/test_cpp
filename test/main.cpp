@@ -12,7 +12,7 @@ string systemIP;
 string systemTemperature;
 LCD lcd;
 LED led(22,900,100);
-TCP tcp("192.168.1.93", 8080);
+TCP tcp("192.168.1.101", 8080);
 SP sp("/dev/ttyS1");
 //thread lcd_update;
 void process_tx(string data) 
