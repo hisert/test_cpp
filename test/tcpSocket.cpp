@@ -88,6 +88,7 @@ public:
     void ThreadListen() 
     {
      while(1) {
+         this_thread::sleep_for(chrono::milliseconds(1)); 
          if(go ==true) {
      if (!connected)
      {
