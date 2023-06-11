@@ -1,0 +1,3 @@
+g++ -o test main.cpp -lwiringPi
+
+g++ -o test test.cpp -lwiringPi
