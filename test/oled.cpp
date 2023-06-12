@@ -532,7 +532,7 @@ void Write_Text(unsigned int x , unsigned int y , string text)
     unsigned char cnt ;
     unsigned char length ;
 
-    length = text.lenght() ;
+    length = text.length() ;
     if ( x == RIGHT ) x = 128 - (length * cfont.x_size) ;
     if ( x == CENTER ) x = (128 - (length * cfont.x_size)) / 2 ;
     for ( cnt = 0 ; cnt < length ; cnt++ )
