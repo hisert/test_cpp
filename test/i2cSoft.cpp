@@ -22,6 +22,8 @@ public:
     }
     SCK_PIN_ =  SCK_PIN  ;
     SDA_PIN_ =  SDA_PIN ;
+    pullUpDnControl(SDA_PIN_, PUD_UP);
+    pullUpDnControl(SCK_PIN_, PUD_UP);
     }
 
 void I2C_TRIS_WRITE(int port,int direct ) 
@@ -30,7 +32,7 @@ void I2C_TRIS_WRITE(int port,int direct )
    {
      if(direct==1) 
      {
-        pinMode( SDA_PIN_ , INPUT_PULLUP ); 
+        pinMode( SDA_PIN_ , INPUT );
      }
      else if(direct==0) 
      {
@@ -41,7 +43,7 @@ void I2C_TRIS_WRITE(int port,int direct )
    {
      if(direct==1) 
      {
-        pinMode( SCK_PIN_ , INPUT_PULLUP ); 
+        pinMode( SCK_PIN_ , INPUT );
      }
      else if(direct==0) 
      {
