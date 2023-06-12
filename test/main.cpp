@@ -14,7 +14,7 @@ OLED oled;
 LED led(22,900,100);
 TCP tcp("192.168.1.110", 8080);
 SP sp("/dev/ttyS1");
-thread oled_update;
+//thread oled_update;
 void process_tx(string data) 
 {
  if(data == "<OPI SHUTDOWN>") 
@@ -24,13 +24,13 @@ void process_tx(string data)
 }
 void oled_Update()
 {   
-    while(1) 
+ //   while(1) 
     {    
     oled.ClearDisplay();
     oled.Write_Text(0,0,getSystemIPAddress());
     oled.Write_Text(0,8,getCPUtemperature());
     oled.Update();
-    this_thread::sleep_for(chrono::milliseconds(100)); 
+   this_thread::sleep_for(chrono::milliseconds(100)); 
     }
 }
 void INIT_led()
@@ -48,7 +48,7 @@ void INIT_tcp()
 }
 void INIT_threads()
 {
-   oled_update = thread([]() { oled_Update(); });
+  // oled_update = thread([]() { oled_Update(); });
 }
 void INIT_all()
 {
