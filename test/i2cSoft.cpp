@@ -5,8 +5,9 @@ using namespace std;
 
 #define PORT_SDA 0
 #define PORT_SCK 1
-#define I2C_CLK_DELAY usleep(1)
+#define I2C_CLK_DELAY  usleep(1)
 #define I2C_DATA_DELAY usleep(1)
+#define I2C_WAIT_DELAY usleep(1000)
 
 class i2cSoft
 {
@@ -93,6 +94,7 @@ void I2C_INIT()
     I2C_DATA_DELAY ;
     I2C_LAT_WRITE(PORT_SDA , 0) ;
     I2C_LAT_WRITE(PORT_SCK , 0) ;
+    I2C_WAIT_DELAY;
 }
 
 void I2C_START()
@@ -105,6 +107,7 @@ void I2C_START()
     I2C_CLK_DELAY ;
     I2C_TRIS_WRITE(PORT_SDA , 0) ;
     I2C_CLK_DELAY ;
+    I2C_WAIT_DELAY;
 }
 
 void I2C_RESTART()
@@ -115,6 +118,7 @@ void I2C_RESTART()
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
     I2C_TRIS_WRITE(PORT_SDA , 0) ;
     I2C_DATA_DELAY ;
+    I2C_WAIT_DELAY;
 }
 
 void I2C_STOP()
@@ -125,6 +129,7 @@ void I2C_STOP()
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
     I2C_TRIS_WRITE(PORT_SDA , 1) ;
     I2C_DATA_DELAY ;
+    I2C_WAIT_DELAY;
 }
 
 void I2C_SEND_ACK()
@@ -134,6 +139,7 @@ void I2C_SEND_ACK()
     I2C_DATA_DELAY ;
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
     I2C_CLK_DELAY ;
+    I2C_WAIT_DELAY;
 }
 
 void I2C_SEND_NACK()
@@ -143,6 +149,7 @@ void I2C_SEND_NACK()
     I2C_DATA_DELAY ;
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
     I2C_CLK_DELAY ;
+    I2C_WAIT_DELAY;
 }
 
 unsigned char I2C_WRITE( unsigned char data)
@@ -162,6 +169,7 @@ unsigned char I2C_WRITE( unsigned char data)
     I2C_DATA_DELAY ;
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
     I2C_DATA_DELAY ;
+    I2C_WAIT_DELAY;
     return I2C_PORT_READ(PORT_SDA) ;
 }
 
@@ -178,6 +186,7 @@ unsigned char I2C_READ()
         RxData = (RxData | (I2C_PORT_READ(PORT_SDA) << (7 - i))) ;
         I2C_DATA_DELAY ;
     }
+    I2C_WAIT_DELAY;
     return RxData ;
 }
 
