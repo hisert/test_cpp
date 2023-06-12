@@ -24,8 +24,7 @@ void process_tx(string data)
 }
 void oled_Update()
 {   
-   // oled.Write_Text(0,0,getSystemIPAddress());
-    oled.Write_Text(0,0,"hello world");
+    oled.Write_Text(0,0,getSystemIPAddress());
     oled.Update();
 }
 void INIT_led()
