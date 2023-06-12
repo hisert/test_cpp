@@ -7,10 +7,11 @@
 #include "functs.cpp"
 #include <thread>
 #include <chrono>
+#include "oled.cpp"
 using namespace std;
 string systemIP;
 string systemTemperature;
-LCD lcd;
+OLED oled;
 LED led(22,900,100);
 TCP tcp("192.168.1.110", 8080);
 SP sp("/dev/ttyS1");
@@ -22,22 +23,19 @@ void process_tx(string data)
      system("shutdown now");
   }
 }
-void lcd_Update()
-{
-    lcd.Clear();
-    lcd.Set_Cursor(1,1);
-    lcd.Display_String(getSystemIPAddress());
-    lcd.Set_Cursor(2,1);
-    lcd.Display_String("QTT --> H.i.S");
+void oled_Update()
+{   
+    oled.Write_Text(0,0,getSystemIPAddress());
+    oled.Update();
 }
 void INIT_led()
 {
   led.start();
 }
-void INIT_lcd()
+void INIT_Oled()
 {
-  lcd.INIT();
-  lcd_Update();
+  oled.INIT();
+  oled_Update();
 }
 void INIT_tcp()
 {
@@ -87,4 +85,11 @@ int main()
 {  
   INIT_all();
   WHILE_all();
+}
+
+
+int main() {
+
+
+    return 0;
 }
