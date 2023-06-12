@@ -527,7 +527,7 @@ void Write(unsigned int x , unsigned int y , char value)
     }
 }
 
-void OLED_Write_Text(word x , word y , char *text)
+void Write_Text(word x , word y , char *text)
 {
     unsigned char cnt ;
     unsigned char length ;
