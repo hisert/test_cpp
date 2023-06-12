@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstdlib>
 #include "ledAlive.cpp"
-#include "i2cLcd.cpp"
 #include "tcpSocket.cpp"
 #include "serial.cpp"
 #include "functs.cpp"
