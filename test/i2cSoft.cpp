@@ -5,9 +5,9 @@ using namespace std;
 
 #define PORT_SDA 0
 #define PORT_SCK 1
-#define I2C_CLK_DELAY  usleep(1)
-#define I2C_DATA_DELAY usleep(1)
-#define I2C_WAIT_DELAY usleep(1000)
+#define I2C_CLK_DELAY  usleep(10)
+#define I2C_DATA_DELAY usleep(10)
+#define I2C_WAIT_DELAY; //usleep(1000)
 
 class i2cSoft
 {
