@@ -563,5 +563,7 @@ static void ssd1306_data(unsigned char value)
 int main() {
     OLED oled;
     oled.INIT();
+    oled.Write_Text(0,0,"evet");
+    oled.Update();
     return 0;
 }
