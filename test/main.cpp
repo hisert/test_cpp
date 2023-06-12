@@ -32,7 +32,7 @@ void INIT_led()
 {
   led.start();
 }
-void INIT_Oled()
+void INIT_oled()
 {
   oled.INIT();
   oled_Update();
@@ -48,7 +48,7 @@ void INIT_threads()
 void INIT_all()
 {
   INIT_led();
-  INIT_lcd();
+  INIT_oled();
   INIT_tcp();
   INIT_threads();
 }
