@@ -536,7 +536,7 @@ void Write_Text(unsigned int x , unsigned int y , string text)
     if ( x == RIGHT ) x = 128 - (length * cfont.x_size) ;
     if ( x == CENTER ) x = (128 - (length * cfont.x_size)) / 2 ;
     for ( cnt = 0 ; cnt < length ; cnt++ )
-        Write(x + (cnt * (cfont.x_size)) , y , *text++) ;
+        Write(x + (cnt * (cfont.x_size)) , y , text[cnt]) ;
 }
 
 static void ssd1306_command(unsigned char command)
