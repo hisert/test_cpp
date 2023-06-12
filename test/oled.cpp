@@ -527,7 +527,7 @@ void Write(unsigned int x , unsigned int y , char value)
     }
 }
 
-void Write_Text(word x , word y , char *text)
+void Write_Text(unsigned int x , unsigned int y , char *text)
 {
     unsigned char cnt ;
     unsigned char length ;
