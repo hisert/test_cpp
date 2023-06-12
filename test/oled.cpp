@@ -921,7 +921,7 @@ void INIT(void)
     ssd1306_command(SSD1306_DEACTIVATE_SCROLL) ;
     ssd1306_command(SSD1306_DISPLAY_ON) ;
 
-    SetFont(Font_Three) ;
+    SetFont(Font_Two) ;
     ClearDisplay() ;
 }
 
