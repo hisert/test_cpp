@@ -651,7 +651,7 @@ static void ssd1306_command(unsigned char command)
     i2c_write( control) ;
     i2c_write( command) ;
     i2c_stop() ;
-    usleep(1000);
+    this_thread::sleep_for(chrono::milliseconds(10)); 
 }
 
 static void ssd1306_data(unsigned char value)
@@ -662,7 +662,7 @@ static void ssd1306_data(unsigned char value)
     i2c_write( control) ;
     i2c_write( value) ;
     i2c_stop() ;
-    usleep(1000);
+    this_thread::sleep_for(chrono::milliseconds(10)); 
 } 
 };
 
