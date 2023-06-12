@@ -14,7 +14,7 @@ OLED oled;
 LED led(22,900,100);
 TCP tcp("192.168.1.110", 8080);
 SP sp("/dev/ttyS1");
-//thread lcd_update;
+thread lcd_update;
 void process_tx(string data) 
 {
  if(data == "<OPI SHUTDOWN>") 
@@ -23,8 +23,9 @@ void process_tx(string data)
   }
 }
 void oled_Update()
-{   
+{   oled.ClearDisplay();
     oled.Write_Text(0,0,getSystemIPAddress());
+    oled.Write_Text(0,8,getCPUtemperature());
     oled.Update();
 }
 void INIT_led()
