@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include "i2cSoft.cpp"
 #include <chrono>
+#include <thread>
 using namespace std;
 
 i2cSoft smbus2 (7, 1);
@@ -190,7 +191,7 @@ void INIT(void)
 {
     i2c_init() ;
     i2c_stop() ;
-    sleep(100);
+    this_thread::sleep_for(chrono::milliseconds(100)); 
     ssd1306_command(SSD1306_DISPLAY_OFF) ;
     ssd1306_command(SSD1306_SET_DISPLAY_CLOCK_DIV_RATIO) ;
     ssd1306_command(0x80) ;
@@ -563,7 +564,7 @@ static void ssd1306_data(unsigned char value)
 int main() {
     OLED oled;
     oled.INIT();
-    oled.FillDisplay();
+    oled.Write_Text(0,0,"192.168.1.81");
     oled.Update();
     echo << "done"<<endl;
     return 0;
