@@ -90,6 +90,7 @@ void I2C_INIT()
 {
     I2C_TRIS_WRITE(PORT_SDA , 1) ;
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
+    I2C_DATA_DELAY ;
     I2C_LAT_WRITE(PORT_SDA , 0) ;
     I2C_LAT_WRITE(PORT_SCK , 0) ;
 }
@@ -98,6 +99,7 @@ void I2C_START()
 {
     I2C_LAT_WRITE(PORT_SDA , 0) ;
     I2C_LAT_WRITE(PORT_SCK , 0) ;
+    I2C_DATA_DELAY ;
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
     I2C_TRIS_WRITE(PORT_SDA , 1) ;
     I2C_CLK_DELAY ;
@@ -108,11 +110,9 @@ void I2C_START()
 void I2C_RESTART()
 {
     I2C_TRIS_WRITE(PORT_SCK , 0) ;
-    I2C_CLK_DELAY ;
     I2C_TRIS_WRITE(PORT_SDA , 1) ;
     I2C_DATA_DELAY ;
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
-    I2C_CLK_DELAY ;
     I2C_TRIS_WRITE(PORT_SDA , 0) ;
     I2C_DATA_DELAY ;
 }
@@ -120,11 +120,9 @@ void I2C_RESTART()
 void I2C_STOP()
 {
     I2C_TRIS_WRITE(PORT_SCK , 0) ;
-    I2C_CLK_DELAY ;
     I2C_TRIS_WRITE(PORT_SDA , 0) ;
     I2C_DATA_DELAY ;
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
-    I2C_CLK_DELAY ;
     I2C_TRIS_WRITE(PORT_SDA , 1) ;
     I2C_DATA_DELAY ;
 }
@@ -132,7 +130,6 @@ void I2C_STOP()
 void I2C_SEND_ACK()
 {
     I2C_TRIS_WRITE(PORT_SCK , 0) ;
-    I2C_CLK_DELAY ;
     I2C_TRIS_WRITE(PORT_SDA , 0) ;
     I2C_DATA_DELAY ;
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
@@ -142,7 +139,6 @@ void I2C_SEND_ACK()
 void I2C_SEND_NACK()
 {
     I2C_TRIS_WRITE(PORT_SCK , 0) ;
-    I2C_CLK_DELAY ;
     I2C_TRIS_WRITE(PORT_SDA , 1) ;
     I2C_DATA_DELAY ;
     I2C_TRIS_WRITE(PORT_SCK , 1) ;
@@ -155,7 +151,6 @@ unsigned char I2C_WRITE( unsigned char data)
     for ( i = 0 ; i < 8 ; i++ )
     {
         I2C_TRIS_WRITE(PORT_SCK , 0) ;
-        I2C_CLK_DELAY ;
         if ( (data << i) & 0x80 ) I2C_TRIS_WRITE(PORT_SDA , 1) ;
         else I2C_TRIS_WRITE(PORT_SDA , 0) ;
         I2C_DATA_DELAY ;
