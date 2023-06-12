@@ -86,10 +86,3 @@ int main()
   INIT_all();
   WHILE_all();
 }
-
-
-int main() {
-
-
-    return 0;
-}
