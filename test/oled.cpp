@@ -560,11 +560,3 @@ static void ssd1306_data(unsigned char value)
 } 
 };
 
-
-int main() {
-    OLED oled;
-    oled.INIT();
-    oled.Write_Text(0,0,"192.168.1.81");
-    oled.Update();
-    return 0;
-}
