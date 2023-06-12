@@ -566,6 +566,5 @@ int main() {
     oled.INIT();
     oled.Write_Text(0,0,"192.168.1.81");
     oled.Update();
-    echo << "done"<<endl;
     return 0;
 }
