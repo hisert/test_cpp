@@ -30,7 +30,7 @@ void I2C_TRIS_WRITE(int port,int direct )
    {
      if(direct==1) 
      {
-        pinMode( SDA_PIN_ , INPUT ); 
+        pinMode( SDA_PIN_ , INPUT_PULLUP ); 
      }
      else if(direct==0) 
      {
@@ -41,7 +41,7 @@ void I2C_TRIS_WRITE(int port,int direct )
    {
      if(direct==1) 
      {
-        pinMode( SCK_PIN_ , INPUT ); 
+        pinMode( SCK_PIN_ , INPUT_PULLUP ); 
      }
      else if(direct==0) 
      {
