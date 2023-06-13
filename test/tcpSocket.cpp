@@ -36,23 +36,30 @@ public:
     ~TCP() {
         closeSocket();
     }
-
-    bool start() {
+    
+    bool open()
+    {
         socketFD = socket(AF_INET, SOCK_STREAM, 0);
+        go = true;
         if (socketFD == -1) {
             cerr << "Hata: Soket oluşturulamadı." << endl;
             return false;
-        }
-
-        while (connect(socketFD, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
-            cerr << "Hata: Sunucuya bağlanılamadı. Tekrar deneyecek..." << endl;
-            this_thread::sleep_for(chrono::seconds(5));
-        }
-        connected = true;
-        go = true;
+        }       
         return true;
     }
-
+    
+    bool connec()
+    {
+        if(connect(socketFD, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1))
+        {            
+            connected = false;
+            cerr << "Hata: Server baglanamadi" << endl;
+            return false;
+        }
+        connected = true;
+         return true;
+    }
+    
     void sendString(const string& message) {
         ssize_t bytesSent = send(socketFD, message.c_str(), message.length(), 0);
         if (bytesSent == -1)
@@ -92,8 +99,8 @@ public:
          if(go ==true) {
      if (!connected)
      {
-       if(start());
-       else this_thread::sleep_for(chrono::seconds(5));
+       if(connec());
+       else this_thread::sleep_for(chrono::seconds(1));
      } 
      else {
         if(RxArrived == false) {
