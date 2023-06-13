@@ -29,7 +29,7 @@ void oled_Update()
     oled.ClearDisplay();
     //oled.Write_Text(0,0,getSystemIPAddress());
     oled.Write_Text(0,8,getSystemIPAddress());
-    oled.Write_Text(0,8,"<------>");
+    //oled.Write_Text(0,8,"<------>");
     oled.Write_Text(0,16,"QTT->HIS");
     oled.Write_Text(0,32,getCPUtemperature());
     oled.Update();
