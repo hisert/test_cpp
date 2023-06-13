@@ -74,10 +74,10 @@ void WHILE_serial()
 }
 void INIT_all()
 {
+  INIT_threads();
   INIT_led();
   INIT_oled();
   INIT_tcp();
-  INIT_threads();
 }
 void WHILE_all()
 {
