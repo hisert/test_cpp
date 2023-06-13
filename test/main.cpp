@@ -32,7 +32,7 @@ void oled_screen_funct()
     oled.Write_Text(0,16,"QTT----->HIS");
     oled.Write_Text(0,32,getCPUtemperature());
     oled.Update();
-    this_thread::sleep_for(chrono::milliseconds(100)); 
+    this_thread::sleep_for(chrono::milliseconds(1000)); 
     }
 }
 void INIT_led()
@@ -42,7 +42,7 @@ void INIT_led()
 void INIT_oled()
 {
   oled.INIT();
-  //oled_screen_funct();
+  oled_screen_funct();
 }
 void INIT_tcp()
 {
