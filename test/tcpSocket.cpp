@@ -90,6 +90,7 @@ public:
             socketFD = -1;
         }
         connected = false;
+        open();
     }
     
     void ThreadListen() 
