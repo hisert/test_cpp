@@ -412,7 +412,12 @@ void InvertFont(unsigned char invert_status)
     if ( invert_status ) cfont.inverted = 1 ;
     else cfont.inverted = 0 ;
 }
-
+void PrintLogo(void) 
+{ 
+    ClearDisplay();
+    Image(aort)
+    Update();
+}
 void Update(void)
 {
     unsigned int i = 0 ;
