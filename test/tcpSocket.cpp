@@ -50,7 +50,7 @@ public:
     
     bool connec()
     {
-        if(connect(socketFD, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1))
+        if(connect(socketFD, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1)
         {            
             connected = false;
             cerr << "Hata: Server baglanamadi" << endl;
