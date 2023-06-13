@@ -44,7 +44,7 @@ void INIT_led()
 void INIT_oled()
 {
   oled.INIT();
-  //oled_Update();
+  oled_Update();
 }
 void INIT_tcp()
 {
