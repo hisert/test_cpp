@@ -42,7 +42,7 @@ void INIT_led()
 void INIT_oled()
 {
   oled.INIT();
-  oled_screen_funct();
+ // oled_screen_funct();
 }
 void INIT_tcp()
 {
