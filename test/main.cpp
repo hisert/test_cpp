@@ -24,7 +24,7 @@ void process_tx(string data)
 }
 void oled_Update()
 {   
-    while(1) 
+//    while(1) 
     {    
     oled.ClearDisplay();
     //oled.Write_Text(0,0,getSystemIPAddress());
