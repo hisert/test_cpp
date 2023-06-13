@@ -72,7 +72,7 @@ public:
 
         ssize_t bytesRead = recv(socketFD, buffer, bufferSize - 1, 0);
         if (bytesRead == -1) {
-            cerr << "Hata: Veri alınamadı." << endl;
+            closeSocket();
             return "";
         }
 
@@ -112,7 +112,6 @@ public:
                   Rx = tempRx;
                } 
            }
-           else closeSocket();
         }
      }
     } }
