@@ -100,7 +100,7 @@ public:
      if (!connected)
      {
        if(connec());
-       else this_thread::sleep_for(chrono::seconds(1));
+       else this_thread::sleep_for(chrono::seconds(5));
      } 
      else {
         if(RxArrived == false) {
