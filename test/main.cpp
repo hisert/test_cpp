@@ -32,7 +32,7 @@ void oled_screen_funct()
     oled.Write_Text(0,16,"QTT----->HIS");
     oled.Write_Text(0,32,getCPUtemperature());
     oled.Update();
-    this_thread::sleep_for(chrono::milliseconds(1000)); 
+    //this_thread::sleep_for(chrono::milliseconds(1000)); 
     }
 }
 void INIT_led()
@@ -51,13 +51,6 @@ void INIT_tcp()
 void INIT_threads()
 {
    oled_screen = thread([]() { oled_screen_funct(); });
-}
-void INIT_all()
-{
-  INIT_led();
-  INIT_oled();
-  INIT_tcp();
-  INIT_threads();
 }
 void WHILE_tcp()
 {
@@ -78,6 +71,13 @@ void WHILE_serial()
         tcp.sendString(txTemp);
       }       
     }
+}
+void INIT_all()
+{
+  INIT_led();
+  INIT_oled();
+  INIT_tcp();
+  INIT_threads();
 }
 void WHILE_all()
 {
