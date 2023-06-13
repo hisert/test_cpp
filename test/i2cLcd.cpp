@@ -1,13 +1,11 @@
 #include <iostream>
-#include "i2cSoft.cpp"
-#include <chrono>
+#include "I2CDevice.cpp"
 using namespace std;
-i2cSoft smbus(7,1);
-#define i2c_start() smbus.I2C_START()
-#define i2c_stop() smbus.I2C_STOP()
-#define i2c_write(x) smbus.I2C_WRITE(x)
-#define i2c_init(x) smbus.I2C_INIT(x)
-#define slave_address_writing 0x40
+
+I2CDevice lcdx("/dev/i2c-0");
+
+#define i2c_write lcdx.write
+#define slave_address_writing 0x20
 class LCD
 {
 public:
@@ -31,23 +29,20 @@ void Write_Cmd(unsigned char a)
     unsigned char I2C_Data_Port ;
     unsigned char I2C_Data ;
     unsigned char ack_received ;
+    unsigned char sender[2];
     PIN_P0 = 0 ; // RS - Send Commands
     PIN_P1 = 0 ; // RW - Write
     I2C_Data_Port = Port(a) ; // Sending Command
     PIN_P2 = 1 ; // E - Drive High Enable to Send Command
     I2C_Data = I2C_Data_Port + PIN_P3 * 8 + PIN_P2 * 4 + PIN_P1 * 2 + PIN_P0 * 1 ;
-    i2c_start() ; // Setting Start Condition
-    ack_received = i2c_write( slave_address_writing) ; // Selecting 7 bit 12C Slave address (0x20) + 0 for Writing (0x40)
-    ack_received = i2c_write( I2C_Data) ; // Write data
-    i2c_stop() ; // Stop condition
-  //  this_thread::sleep_for(chrono::milliseconds(10)); 
+    sender[0] = 0x00;
+    sender[1] = I2C_Data;
+    i2c_write(slave_address_writing,sender,2);
     PIN_P2 = 0 ; // Reset Enable
     I2C_Data = I2C_Data_Port + PIN_P3 * 8 + PIN_P2 * 4 + PIN_P1 * 2 + PIN_P0 * 1 ;
-    i2c_start() ; // Setting Start Condition
-    ack_received = i2c_write( slave_address_writing) ; // Selecting 7 bit 12C Slave address (0x20) + 0 for Writing (0x40)
-    ack_received = i2c_write( I2C_Data) ; // Write data
-    i2c_stop() ; // Stop condition
-   // this_thread::sleep_for(chrono::milliseconds(10)); 
+    sender[0] = 0x00;
+    sender[1] = I2C_Data;
+    i2c_write(slave_address_writing,sender,2);
 }
 
 void Write_Data(unsigned char a)
@@ -55,23 +50,21 @@ void Write_Data(unsigned char a)
     unsigned char I2C_Data_Port ;
     unsigned char I2C_Data ;
     unsigned char ack_received ;
+    unsigned char sender[2];
     PIN_P0 = 1 ; // RS - Send Data
     PIN_P1 = 0 ; // RW - Write 
     I2C_Data_Port = Port(a) ; // Sending Command
     PIN_P2 = 1 ; // Drive High Enable to Send Command
     I2C_Data = I2C_Data_Port + PIN_P3 * 8 + PIN_P2 * 4 + PIN_P1 * 2 + PIN_P0 * 1 ;
-    i2c_start() ; // Setting Start Condition
-    ack_received = i2c_write( slave_address_writing) ; // Selecting 7 bit 12C Slave address (0x20) + 0 for Writing (0x40)
-    ack_received = i2c_write( I2C_Data) ; // Write data
-    i2c_stop() ; // Stop condition
-  //  this_thread::sleep_for(chrono::milliseconds(10)); 
+    
+    sender[0] = 0x00;
+    sender[1] = I2C_Data;
+    i2c_write(slave_address_writing,sender,2);
     PIN_P2 = 0 ; // E - Enable, First 4 Bits Sent
     I2C_Data = I2C_Data_Port + PIN_P3 * 8 + PIN_P2 * 4 + PIN_P1 * 2 + PIN_P0 * 1 ;
-    i2c_start() ; // Setting Start Condition
-    ack_received = i2c_write( slave_address_writing) ; // Selecting 7 bit 12C Slave address (0x20) + 0 for Writing (0x40)
-    ack_received = i2c_write( I2C_Data) ; // Write data
-    i2c_stop() ; // Stop condition
-  //  this_thread::sleep_for(chrono::milliseconds(10)); 
+    sender[0] = 0x00;
+    sender[1] = I2C_Data;
+    i2c_write(slave_address_writing,sender,2);
 }
 
 void Four_Bit_Init() 
@@ -89,7 +82,6 @@ void Four_Bit_Init()
     Write_Cmd(0x06) ; // Send 0000 0110 to LCD  (Entry mode set))
 }
 
-
 void Display_Char(char c)
 {
     unsigned char LowNibble , HighNibble ;
@@ -106,7 +98,9 @@ void Display_String(string s)
 
 void INIT()
 {
-    i2c_init();
+    if (!lcdx.openDevice()) {
+    cerr << "I2C aygıtı açılamadı." << endl;
+    }
     Four_Bit_Init() ;
 }
 

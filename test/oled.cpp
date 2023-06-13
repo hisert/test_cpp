@@ -3,17 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cstdlib>
-#include "i2cSoft.cpp"
 #include <chrono>
 #include <thread>
+#include "I2CDevice.cpp"
 using namespace std;
 
-i2cSoft smbus2 (7, 1);
+I2CDevice lcdx("/dev/i2c-0");
 
-#define i2c_start() smbus2.I2C_START()
-#define i2c_stop() smbus2.I2C_STOP()
-#define i2c_write(x) smbus2.I2C_WRITE(x)
-#define i2c_init(x) smbus2.I2C_INIT(x)
+#define i2c_write lcdx.write
   
 #define LEFT                  0
 #define RIGHT                 254
@@ -283,18 +280,18 @@ const unsigned char TINY_FONTS[] = {
     0x00,0x41,0x41,0x77,0x3e,0x08,0x08,0x00,  // }
     0x02,0x03,0x01,0x03,0x02,0x03,0x01,0x00,  // ~
 };
-
 static unsigned char buffer[SSD1306_LCDHEIGHT * SSD1306_LCDWIDTH / 8] ;
+
 class OLED 
 {
 
 public:
 
-
 void INIT(void)
 {
-    i2c_init() ;
-    i2c_stop() ;
+    if (!lcdx.openDevice()) {
+    cerr << "I2C aygıtı açılamadı." << endl;
+    }
     this_thread::sleep_for(chrono::milliseconds(100)); 
     ssd1306_command(SSD1306_DISPLAY_OFF) ;
     ssd1306_command(SSD1306_SET_DISPLAY_CLOCK_DIV_RATIO) ;
@@ -360,19 +357,17 @@ void Update(void)
     ssd1306_command(SSD1306_SET_PAGE_ADDR) ;
     ssd1306_command(0) ; // Page start address (0 = reset)
     ssd1306_command(7) ; // Page end address
+    unsigned char temp[20] ;
     for ( i = 0 ; i < (SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8) ; i++ )
     {
-        // Send data for Transmission
-        i2c_start() ;
-        i2c_write( SSD1306_ADDR << 1) ;
-        i2c_write( 0x40) ;
+        temp[0] = SSD1306_DATA_CONTINUE;
         for ( x = 0 ; x < 16 ; x++ )
         {
-            i2c_write( buffer[i]) ;
+            temp[1+x] = buffer[i];
             i++ ;
         }
         i-- ;
-        i2c_stop() ;
+        i2c_write(SSD1306_ADDR ,temp,17);
     }
 }
 
@@ -645,24 +640,21 @@ void Write_Text(unsigned int x , unsigned int y , string text)
 
 static void ssd1306_command(unsigned char command)
 {
-    unsigned char control = 0x00 ; // Co=0, D/C=0
-    i2c_start() ;
-    i2c_write( SSD1306_ADDR << 1) ;
-    i2c_write( control) ;
-    i2c_write( command) ;
-    i2c_stop() ;
-    this_thread::sleep_for(chrono::milliseconds(10)); 
+    unsigned char control = SSD1306_COMMAND ; // Co=0, D/C=0
+    unsigned char data[3];
+   // data[0] = 0x00;
+    data[0] =  control;
+    data[1] = command;
+    i2c_write(SSD1306_ADDR ,data,2);
 }
 
 static void ssd1306_data(unsigned char value)
 {
-    unsigned char control = 0x40 ; // Co = 0, D/C = 1
-    i2c_start() ;
-    i2c_write( SSD1306_ADDR << 1) ;
-    i2c_write( control) ;
-    i2c_write( value) ;
-    i2c_stop() ;
-    this_thread::sleep_for(chrono::milliseconds(10)); 
+    unsigned char control = SSD1306_DATA ; // Co = 0, D/C = 1
+    unsigned char data[3];
+   // data[0] = 0x00;
+    data[0] = control;
+    data[1] = value;
+    i2c_write(SSD1306_ADDR ,data,2);
 } 
 };
-
