@@ -415,7 +415,7 @@ void InvertFont(unsigned char invert_status)
 void PrintLogo(void) 
 { 
     ClearDisplay();
-    Image(aort)
+    Image(aort);
     Update();
 }
 void Update(void)
