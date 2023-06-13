@@ -30,8 +30,9 @@ void oled_Update()
     //oled.Write_Text(0,0,getSystemIPAddress());
     oled.Write_Text(0,8,getSystemIPAddress());
     //oled.Write_Text(0,8,"<------>");
-    oled.Write_Text(0,16,"QTT->HIS");
+    oled.Write_Text(0,16,"QTT----->HIS");
     oled.Write_Text(0,32,getCPUtemperature());
+    oled.Write_Text(0,48,"ELBET");
     oled.Update();
     this_thread::sleep_for(chrono::milliseconds(100)); 
     }
