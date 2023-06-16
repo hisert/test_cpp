@@ -32,7 +32,7 @@ void oled_screen_funct()
     oled.Write_Text((0 + 15),(0 + 4),getSystemIPAddress());
     oled.Write_Text((0 + 4),(16 + 4),GetCurrentDateTime());
     oled.Write_Text((0 + 4),(32 + 4),"QTT->HIS");
-    oled.Write_Text((0 + 4),(32 + 4+50),getElapsedTimeInSeconds());
+    oled.Write_Text((0 + 4 + 50),(32 + 4),getElapsedTimeInSeconds());
     oled.Write_Text((0 + 4),(48 + 4),getCPUtemperature());          
     oled.Update();
     this_thread::sleep_for(chrono::milliseconds(1000)); 
