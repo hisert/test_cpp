@@ -1,7 +1,7 @@
 #include <iostream>
 #include <wiringPi.h>
 #include <thread>
-#include <chrono>
+//#include <chrono>
 
 using namespace std;
 class LED
@@ -41,9 +41,11 @@ private:
         while (!stopBlinking_)
         {
             digitalWrite(pin_, LOW);
-            this_thread::sleep_for(chrono::milliseconds(ledOpenTime_)); 
+            sleep(ledOpenTime_/1000);
+          //  this_thread::sleep_for(chrono::milliseconds(ledOpenTime_)); 
             digitalWrite(pin_, HIGH);
-            this_thread::sleep_for(chrono::milliseconds(ledCloseTime_));
+         //   this_thread::sleep_for(chrono::milliseconds(ledCloseTime_));
+            sleep(ledCloseTime_/1000);
         }
     }
 
