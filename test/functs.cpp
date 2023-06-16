@@ -65,3 +65,10 @@ string GetCurrentDateTime()
 
     return dateTime;
 }
+string getElapsedTimeInSeconds()
+{
+    static const auto startTime = chrono::steady_clock::now();
+    const auto currentTime = chrono::steady_clock::now();
+    const auto elapsedTime = chrono::duration_cast<chrono::seconds>(currentTime - startTime).count();
+    return to_string(elapsedTime);
+}
