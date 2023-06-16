@@ -8,8 +8,6 @@
 #include <chrono>
 #include "oled.cpp"
 using namespace std;
-string systemIP;
-string systemTemperature;
 OLED oled;
 LED led(22,900,100);
 TCP tcp("192.168.1.110", 8080);
