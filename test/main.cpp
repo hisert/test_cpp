@@ -31,7 +31,7 @@ void oled_screen_funct()
     oled.Rectangle(0,16,127,63,1);
     oled.Write_Text((0 + 15),(0 + 4),getSystemIPAddress());
     oled.Write_Text((0 + 4),(16 + 4),GetCurrentDateTime());
-    oled.Write_Text((0 + 4),(32 + 4),"TEMP-->");
+    oled.Write_Text((0 + 4),(32 + 4),"TEMP->");
     oled.Write_Text((0 + 4 +50),(32 + 4),getCPUtemperature());  
     oled.Write_Text((0 + 4),(48 + 4),"TIME->");
     oled.Write_Text((0 + 4 + 50),(48 + 4),getElapsedTimeInSeconds());
