@@ -23,8 +23,9 @@ void process_tx(string data)
 void oled_screen_funct()
 {   
     oled.PrintLogo();
-   this_thread::sleep_for(chrono::milliseconds(3000)); 
-    while(1) 
+   //this_thread::sleep_for(chrono::milliseconds(3000)); 
+    sleep(3000); 
+   while(1) 
     {    
     oled.ClearDisplay();
     oled.Rectangle(0,0,127,15,1);
@@ -35,7 +36,7 @@ void oled_screen_funct()
     oled.Write_Text((0 + 4 + 75),(32 + 4),getElapsedTimeInSeconds());
     oled.Write_Text((0 + 4),(48 + 4),getCPUtemperature());          
     oled.Update();
-    this_thread::sleep_for(chrono::milliseconds(1000)); 
+    sleep(1000);
     }
 }
 void INIT_led()
