@@ -5,6 +5,7 @@
 #include <arpa/inet.h>
 #include <ifaddrs.h>
 #include <netinet/in.h>
+#include <ctime>
 using namespace std;
 
 string getSystemIPAddress() {
@@ -52,4 +53,13 @@ string getCPUtemperature() {
     float cpuTemp = tempValue / 1000.0;
 
     return to_string(cpuTemp);
+}
+
+string GetCurrentDateTime()
+{
+    time_t currentTime = time(nullptr);
+    string dateTime = ctime(&currentTime);
+    dateTime.pop_back(); // Son karakter olan newline karakterini kaldır
+
+    return dateTime;
 }
