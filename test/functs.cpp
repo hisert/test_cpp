@@ -60,6 +60,7 @@ string GetCurrentDateTime()
     time_t currentTime = time(nullptr);
     string dateTime = ctime(&currentTime);
     dateTime.pop_back(); // Son karakter olan newline karakterini kaldır
+     dateTime = dateTime.substr(4); //Günü kaldırır
 
     return dateTime;
 }
