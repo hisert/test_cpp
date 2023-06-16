@@ -24,7 +24,7 @@ void oled_screen_funct()
 {   
     oled.PrintLogo();
    //this_thread::sleep_for(chrono::milliseconds(3000)); 
-   Sleep(3000); 
+   sleep(3); 
    while(1) 
     {    
     oled.ClearDisplay();
@@ -36,7 +36,7 @@ void oled_screen_funct()
     oled.Write_Text((0 + 4 + 75),(32 + 4),getElapsedTimeInSeconds());
     oled.Write_Text((0 + 4),(48 + 4),getCPUtemperature());          
     oled.Update();
-    Sleep(1000);
+    sleep(1);
     }
 }
 void INIT_led()
