@@ -33,6 +33,7 @@ void oled_screen_funct()
     oled.Write_Text(0,8,"<------>");
     oled.Write_Text(0,16,"QTT----->HIS");
     oled.Write_Text(0,32,getCPUtemperature());
+    oled.Write_Text(0,48,GetCurrentDateTime());
     oled.Update();
     this_thread::sleep_for(chrono::milliseconds(1000)); 
     }
