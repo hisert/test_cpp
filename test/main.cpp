@@ -32,9 +32,9 @@ void oled_screen_funct()
     oled.Rectangle(0,0,127,15,1);
     oled.Rectangle(0,16,127,63,1);
     oled.Write_Text((0 + 15),(0 + 4),getSystemIPAddress());
-    oled.Write_Text((0 + 4),(16 + 4),"QTT----->HIS");
-    oled.Write_Text((0 + 4),(32 + 4),getCPUtemperature());
-    oled.Write_Text((0 + 4),(48 + 4),GetCurrentDateTime());
+    oled.Write_Text((0 + 4),(16 + 4),GetCurrentDateTime());
+    oled.Write_Text((0 + 4),(32 + 4),"QTT----->HIS");
+    oled.Write_Text((0 + 4),(48 + 4),getCPUtemperature());          
     oled.Update();
     this_thread::sleep_for(chrono::milliseconds(1000)); 
     }
