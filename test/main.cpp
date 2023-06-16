@@ -5,6 +5,7 @@
 #include "serial.cpp"
 #include "functs.cpp"
 #include <thread>
+#include <chrono>
 #include "oled.cpp"
 using namespace std;
 OLED oled;
@@ -22,7 +23,7 @@ void process_tx(string data)
 void oled_screen_funct()
 {   
     oled.PrintLogo();
-   sleep(3); 
+   this_thread::sleep_for(chrono::milliseconds(3000)); 
    while(1) 
     {    
     oled.ClearDisplay();
@@ -34,7 +35,7 @@ void oled_screen_funct()
     oled.Write_Text((0 + 4 + 75),(32 + 4),getElapsedTimeInSeconds());
     oled.Write_Text((0 + 4),(48 + 4),getCPUtemperature());          
     oled.Update();
-    sleep(1);
+    this_thread::sleep_for(chrono::milliseconds(1000));
     }
 }
 void INIT_led()
@@ -85,7 +86,7 @@ void WHILE_all()
 {
   while(1)
   {
-    sleep(0.001);
+    this_thread::sleep_for(chrono::milliseconds(1));
     WHILE_tcp();
     WHILE_serial();
   }
