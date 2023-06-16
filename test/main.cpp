@@ -23,7 +23,6 @@ void process_tx(string data)
 void oled_screen_funct()
 {   
     oled.PrintLogo();
-   //this_thread::sleep_for(chrono::milliseconds(3000)); 
    sleep(3); 
    while(1) 
     {    
@@ -87,7 +86,7 @@ void WHILE_all()
 {
   while(1)
   {
-    this_thread::sleep_for(chrono::milliseconds(1)); 
+    sleep(0.001);
     WHILE_tcp();
     WHILE_serial();
   }
