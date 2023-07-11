@@ -19,7 +19,7 @@ unsigned int ssd1306_lcd_hei = 0;
 #define BLACK                 0
 #define WHITE                 1
 #define INVERSE               2
-#define SSD1306_ADDR          0x3C
+#define SSD1306_ADDR          68
 #define SSD1306_LCDWIDTH                  128
 #define SSD1306_LCDHEIGHT                 32
 #define SSD1306_COMMAND                     0x00
