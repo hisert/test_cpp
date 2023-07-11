@@ -9,7 +9,8 @@
 using namespace std;
 
 I2CDevice lcdx("/dev/i2c-0");
-
+unsigned int ssd1306_lcd_wid = 0;
+unsigned int ssd1306_lcd_hei = 0;
 #define i2c_write lcdx.write
   
 #define LEFT                  0
@@ -20,7 +21,7 @@ I2CDevice lcdx("/dev/i2c-0");
 #define INVERSE               2
 #define SSD1306_ADDR          0x3C
 #define SSD1306_LCDWIDTH                  128
-#define SSD1306_LCDHEIGHT                 64
+#define SSD1306_LCDHEIGHT                 32
 #define SSD1306_COMMAND                     0x00
 #define SSD1306_DATA                        0xC0
 #define SSD1306_DATA_CONTINUE               0x40
@@ -490,6 +491,8 @@ void INIT(void)
     if (!lcdx.openDevice()) {
     cerr << "I2C aygıtı açılamadı." << endl;
     }
+    ssd1306_lcd_wid = SSD1306_LCDWIDTH;
+    ssd1306_lcd_hei = SSD1306_LCDHEIGHT;
     this_thread::sleep_for(chrono::milliseconds(100)); 
     ssd1306_command(SSD1306_DISPLAY_OFF) ;
     ssd1306_command(SSD1306_SET_DISPLAY_CLOCK_DIV_RATIO) ;
@@ -507,12 +510,21 @@ void INIT(void)
     ssd1306_command(SSD1306_SET_SEGMENT_REMAP | 0x01) ;
     ssd1306_command(SSD1306_COM_SCAN_DIR_DEC) ;
 
+    if((ssd1306_lcd_wid == 128) &&(ssd1306_lcd_hei == 32))
+    {
+    ssd1306_command(SSD1306_SET_COM_PINS) ;
+    ssd1306_command(0x02) ;
+    ssd1306_command(SSD1306_SET_CONTRAST_CONTROL) ;
+    ssd1306_command(0x8F) ;
+    }
+    if((ssd1306_lcd_wid == 128) &&(ssd1306_lcd_hei == 64))
+    {
     ssd1306_command(SSD1306_SET_COM_PINS) ;
     ssd1306_command(0x12) ;
     ssd1306_command(SSD1306_SET_CONTRAST_CONTROL) ;
     // ssd1306_command(0x9F);  Use with External VCC
     ssd1306_command(0xCF) ;
-
+    }
 
     ssd1306_command(SSD1306_SET_PRECHARGE_PERIOD) ;
     // ssd1306_command( 0x22 ); Use with External VCC
@@ -559,7 +571,9 @@ void Update(void)
 
     ssd1306_command(SSD1306_SET_PAGE_ADDR) ;
     ssd1306_command(0) ; // Page start address (0 = reset)
-    ssd1306_command(7) ; // Page end address
+    if((ssd1306_lcd_hei == 64)) ssd1306_command(7) ; // Page end address
+    if((ssd1306_lcd_hei == 32)) ssd1306_command(3) ; // Page end address
+    if((ssd1306_lcd_hei == 64)) ssd1306_command(1) ; // Page end address
     unsigned char temp[20] ;
     for ( i = 0 ; i < (SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8) ; i++ )
     {
