@@ -47,7 +47,7 @@ void INIT_led()
 void INIT_oled()
 {
   oled.INIT(128,32,0x3C);
-  //oled.InvertDisplay(1);
+  oled.InvertDisplay(1);
 }
 void INIT_tcp()
 {
