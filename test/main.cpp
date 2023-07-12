@@ -46,7 +46,7 @@ void INIT_led()
 }
 void INIT_oled()
 {
-  oled.INIT();
+  oled.INIT(128,32,0x3C);
   //oled.InvertDisplay(1);
 }
 void INIT_tcp()
@@ -80,7 +80,7 @@ void WHILE_serial()
 void INIT_all()
 {
   INIT_led();
-  INIT_oled(128,32,0x3C);
+  INIT_oled();
   INIT_threads();
   INIT_tcp();
 }
