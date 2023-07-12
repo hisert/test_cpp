@@ -12,15 +12,14 @@ I2CDevice lcdx("/dev/i2c-1");
 unsigned int ssd1306_lcd_wid = 0;
 unsigned int ssd1306_lcd_hei = 0;
 unsigned int ssd1306_address = 0;
+
 #define i2c_write lcdx.write
-  
 #define LEFT                  0
 #define RIGHT                 254
 #define CENTER                255
 #define BLACK                 0
 #define WHITE                 1
 #define INVERSE               2
-#define ssd1306_address          0x3C
 #define SSD1306_COMMAND                     0x00
 #define SSD1306_DATA                        0xC0
 #define SSD1306_DATA_CONTINUE               0x40
@@ -492,7 +491,7 @@ void INIT(void)
     }
     ssd1306_lcd_wid = 128;
     ssd1306_lcd_hei = 32;
-    ssd1306_address = SSD1306_ADDR;
+    ssd1306_address = 0x3C;
 	
     this_thread::sleep_for(chrono::milliseconds(100)); 
     ssd1306_command(SSD1306_DISPLAY_OFF) ;
