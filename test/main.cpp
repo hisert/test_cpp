@@ -80,7 +80,7 @@ void WHILE_serial()
 void INIT_all()
 {
   INIT_led();
-  INIT_oled();
+  INIT_oled(128,32,0x3C);
   INIT_threads();
   INIT_tcp();
 }
