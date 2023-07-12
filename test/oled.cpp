@@ -484,14 +484,14 @@ class OLED
 
 public:
 
-void INIT(void)
+void INIT(unsigned char width,unsigned char weight,unsigned char adress)
 {
     if (!lcdx.openDevice()) {
     cerr << "I2C aygıtı açılamadı." << endl;
     }
-    ssd1306_lcd_wid = 128;
-    ssd1306_lcd_hei = 32;
-    ssd1306_address = 0x3C;
+    ssd1306_lcd_wid = width;
+    ssd1306_lcd_hei = weight;
+    ssd1306_address = adress;
 	
     this_thread::sleep_for(chrono::milliseconds(100)); 
     ssd1306_command(SSD1306_DISPLAY_OFF) ;
