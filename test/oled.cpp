@@ -478,7 +478,7 @@ const unsigned char TINY_FONTS[] = {
     0x00,0x41,0x41,0x77,0x3e,0x08,0x08,0x00,  // }
     0x02,0x03,0x01,0x03,0x02,0x03,0x01,0x00,  // ~
 };
-static unsigned char buffer[ssd1306_lcd_wissd1306_lcd_heid * ssd1306_lcd_wid / 8] ;
+static unsigned char buffer[ssd1306_lcd_hei * ssd1306_lcd_wid / 8] ;
 
 class OLED 
 {
@@ -499,7 +499,7 @@ void INIT(void)
     ssd1306_command(SSD1306_SET_DISPLAY_CLOCK_DIV_RATIO) ;
     ssd1306_command(0x80) ;
     ssd1306_command(SSD1306_SET_MULTIPLEX_RATIO) ;
-    ssd1306_command(ssd1306_lcd_wissd1306_lcd_heid - 1) ;
+    ssd1306_command(ssd1306_lcd_hei - 1) ;
     ssd1306_command(SSD1306_SET_DISPLAY_OFFSET) ;
     ssd1306_command(0x00) ;
     ssd1306_command(SSD1306_SET_START_LINE | 0x00) ; // Line: 0
@@ -576,7 +576,7 @@ void Update(void)
     if((ssd1306_lcd_hei == 32)) ssd1306_command(3) ; // Page end address
     if((ssd1306_lcd_hei == 64)) ssd1306_command(1) ; // Page end address
     unsigned char temp[20] ;
-    for ( i = 0 ; i < (ssd1306_lcd_wid * ssd1306_lcd_wissd1306_lcd_heid / 8) ; i++ )
+    for ( i = 0 ; i < (ssd1306_lcd_wid * ssd1306_lcd_hei / 8) ; i++ )
     {
         temp[0] = SSD1306_DATA_CONTINUE;
         for ( x = 0 ; x < 16 ; x++ )
@@ -597,12 +597,12 @@ void SetContrast(unsigned char contrast)
 
 void ClearDisplay(void)
 {
-    memset(buffer , 0 , (ssd1306_lcd_wid * ssd1306_lcd_wissd1306_lcd_heid / 8)) ;
+    memset(buffer , 0 , (ssd1306_lcd_wid * ssd1306_lcd_hei / 8)) ;
 }
 
 void FillDisplay(void)
 {
-    memset(buffer , 0xFF , (ssd1306_lcd_wid * ssd1306_lcd_wissd1306_lcd_heid / 8)) ;
+    memset(buffer , 0xFF , (ssd1306_lcd_wid * ssd1306_lcd_hei / 8)) ;
 }
 
 void InvertDisplay(unsigned char value)
@@ -613,7 +613,7 @@ void InvertDisplay(unsigned char value)
 
 void DrawPixel(unsigned int x , unsigned int y , unsigned char color)
 {
-    if ( (x < 0) || (x >= ssd1306_lcd_wid) || (y < 0) || (y >= ssd1306_lcd_wissd1306_lcd_heid) ) return ;
+    if ( (x < 0) || (x >= ssd1306_lcd_wid) || (y < 0) || (y >= ssd1306_lcd_hei) ) return ;
     switch (color)
     {
     case WHITE: buffer[x + (y / 8) * ssd1306_lcd_wid] |= (1 << (y & 7)) ;
@@ -739,7 +739,7 @@ void Triangle(unsigned int x0 , unsigned int y0 , unsigned int x1 , unsigned int
 void Image(const unsigned char *image)
 {
     unsigned int i ;
-    for ( i = 0 ; i < (ssd1306_lcd_wid * ssd1306_lcd_wissd1306_lcd_heid / 8) ; i++ ) buffer[i] = *(image + i) ;
+    for ( i = 0 ; i < (ssd1306_lcd_wid * ssd1306_lcd_hei / 8) ; i++ ) buffer[i] = *(image + i) ;
 }
 
 void Circle(unsigned int x0 , unsigned int y0 , unsigned int r , unsigned char color)
