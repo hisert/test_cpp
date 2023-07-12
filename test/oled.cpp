@@ -11,6 +11,7 @@ using namespace std;
 I2CDevice lcdx("/dev/i2c-1");
 unsigned int ssd1306_lcd_wid = 0;
 unsigned int ssd1306_lcd_hei = 0;
+unsigned int ssd1306_address = 0;
 #define i2c_write lcdx.write
   
 #define LEFT                  0
@@ -19,9 +20,7 @@ unsigned int ssd1306_lcd_hei = 0;
 #define BLACK                 0
 #define WHITE                 1
 #define INVERSE               2
-#define SSD1306_ADDR          0x3C
-#define SSD1306_LCDWIDTH                  128
-#define SSD1306_LCDHEIGHT                 32
+#define ssd1306_address          0x3C
 #define SSD1306_COMMAND                     0x00
 #define SSD1306_DATA                        0xC0
 #define SSD1306_DATA_CONTINUE               0x40
@@ -479,7 +478,7 @@ const unsigned char TINY_FONTS[] = {
     0x00,0x41,0x41,0x77,0x3e,0x08,0x08,0x00,  // }
     0x02,0x03,0x01,0x03,0x02,0x03,0x01,0x00,  // ~
 };
-static unsigned char buffer[SSD1306_LCDHEIGHT * SSD1306_LCDWIDTH / 8] ;
+static unsigned char buffer[ssd1306_lcd_wissd1306_lcd_heid * ssd1306_lcd_wid / 8] ;
 
 class OLED 
 {
@@ -491,14 +490,16 @@ void INIT(void)
     if (!lcdx.openDevice()) {
     cerr << "I2C aygıtı açılamadı." << endl;
     }
-    ssd1306_lcd_wid = SSD1306_LCDWIDTH;
-    ssd1306_lcd_hei = SSD1306_LCDHEIGHT;
+    ssd1306_lcd_wid = 128;
+    ssd1306_lcd_hei = 32;
+    ssd1306_address = SSD1306_ADDR;
+	
     this_thread::sleep_for(chrono::milliseconds(100)); 
     ssd1306_command(SSD1306_DISPLAY_OFF) ;
     ssd1306_command(SSD1306_SET_DISPLAY_CLOCK_DIV_RATIO) ;
     ssd1306_command(0x80) ;
     ssd1306_command(SSD1306_SET_MULTIPLEX_RATIO) ;
-    ssd1306_command(SSD1306_LCDHEIGHT - 1) ;
+    ssd1306_command(ssd1306_lcd_wissd1306_lcd_heid - 1) ;
     ssd1306_command(SSD1306_SET_DISPLAY_OFFSET) ;
     ssd1306_command(0x00) ;
     ssd1306_command(SSD1306_SET_START_LINE | 0x00) ; // Line: 0
@@ -567,7 +568,7 @@ void Update(void)
     unsigned char x = 0 ;
     ssd1306_command(SSD1306_SET_COLUMN_ADDR) ;
     ssd1306_command(0) ; // Column start address (0 = reset)
-    ssd1306_command(SSD1306_LCDWIDTH - 1) ; // Column end address (127 = reset)
+    ssd1306_command(ssd1306_lcd_wid - 1) ; // Column end address (127 = reset)
 
     ssd1306_command(SSD1306_SET_PAGE_ADDR) ;
     ssd1306_command(0) ; // Page start address (0 = reset)
@@ -575,7 +576,7 @@ void Update(void)
     if((ssd1306_lcd_hei == 32)) ssd1306_command(3) ; // Page end address
     if((ssd1306_lcd_hei == 64)) ssd1306_command(1) ; // Page end address
     unsigned char temp[20] ;
-    for ( i = 0 ; i < (SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8) ; i++ )
+    for ( i = 0 ; i < (ssd1306_lcd_wid * ssd1306_lcd_wissd1306_lcd_heid / 8) ; i++ )
     {
         temp[0] = SSD1306_DATA_CONTINUE;
         for ( x = 0 ; x < 16 ; x++ )
@@ -584,7 +585,7 @@ void Update(void)
             i++ ;
         }
         i-- ;
-        i2c_write(SSD1306_ADDR ,temp,17);
+        i2c_write(ssd1306_address ,temp,17);
     }
 }
 
@@ -596,12 +597,12 @@ void SetContrast(unsigned char contrast)
 
 void ClearDisplay(void)
 {
-    memset(buffer , 0 , (SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8)) ;
+    memset(buffer , 0 , (ssd1306_lcd_wid * ssd1306_lcd_wissd1306_lcd_heid / 8)) ;
 }
 
 void FillDisplay(void)
 {
-    memset(buffer , 0xFF , (SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8)) ;
+    memset(buffer , 0xFF , (ssd1306_lcd_wid * ssd1306_lcd_wissd1306_lcd_heid / 8)) ;
 }
 
 void InvertDisplay(unsigned char value)
@@ -612,14 +613,14 @@ void InvertDisplay(unsigned char value)
 
 void DrawPixel(unsigned int x , unsigned int y , unsigned char color)
 {
-    if ( (x < 0) || (x >= SSD1306_LCDWIDTH) || (y < 0) || (y >= SSD1306_LCDHEIGHT) ) return ;
+    if ( (x < 0) || (x >= ssd1306_lcd_wid) || (y < 0) || (y >= ssd1306_lcd_wissd1306_lcd_heid) ) return ;
     switch (color)
     {
-    case WHITE: buffer[x + (y / 8) * SSD1306_LCDWIDTH] |= (1 << (y & 7)) ;
+    case WHITE: buffer[x + (y / 8) * ssd1306_lcd_wid] |= (1 << (y & 7)) ;
         break ;
-    case BLACK: buffer[x + (y / 8) * SSD1306_LCDWIDTH] &= ~(1 << (y & 7)) ;
+    case BLACK: buffer[x + (y / 8) * ssd1306_lcd_wid] &= ~(1 << (y & 7)) ;
         break ;
-    case INVERSE: buffer[x + (y / 8) * SSD1306_LCDWIDTH] ^= (1 << (y & 7)) ;
+    case INVERSE: buffer[x + (y / 8) * ssd1306_lcd_wid] ^= (1 << (y & 7)) ;
         break ;
     }
 }
@@ -738,7 +739,7 @@ void Triangle(unsigned int x0 , unsigned int y0 , unsigned int x1 , unsigned int
 void Image(const unsigned char *image)
 {
     unsigned int i ;
-    for ( i = 0 ; i < (SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8) ; i++ ) buffer[i] = *(image + i) ;
+    for ( i = 0 ; i < (ssd1306_lcd_wid * ssd1306_lcd_wissd1306_lcd_heid / 8) ; i++ ) buffer[i] = *(image + i) ;
 }
 
 void Circle(unsigned int x0 , unsigned int y0 , unsigned int r , unsigned char color)
@@ -862,7 +863,7 @@ static void ssd1306_command(unsigned char command)
    // data[0] = 0x00;
     data[0] =  control;
     data[1] = command;
-    i2c_write(SSD1306_ADDR ,data,2);
+    i2c_write(ssd1306_address ,data,2);
 }
 
 static void ssd1306_data(unsigned char value)
@@ -872,6 +873,6 @@ static void ssd1306_data(unsigned char value)
    // data[0] = 0x00;
     data[0] = control;
     data[1] = value;
-    i2c_write(SSD1306_ADDR ,data,2);
+    i2c_write(ssd1306_address ,data,2);
 } 
 };
