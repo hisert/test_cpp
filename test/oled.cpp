@@ -8,7 +8,7 @@
 #include "I2CDevice.cpp"
 using namespace std;
 
-I2CDevice lcdx("/dev/i2c-1");
+I2CDevice lcdx("/dev/i2c-0");
 unsigned int ssd1306_lcd_wid = 0;
 unsigned int ssd1306_lcd_hei = 0;
 unsigned int ssd1306_address = 0;
