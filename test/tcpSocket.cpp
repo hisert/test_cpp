@@ -8,16 +8,6 @@
 using namespace std;
 
 class TCP {
-  private: int socketFD;
-  struct sockaddr_in serverAddress;
-  const char * ipAddress;
-  int port;
-  bool autoConnect;
-  bool connected = false;
-  os_thread tcp_soket(threadFun,10,0);
-  string Rx;
-  bool RxArrived = false;
-
   public:
 
     TCP(const char * ipAddress, int port): socketFD(-1),
@@ -114,4 +104,14 @@ class TCP {
       return temp;
     }
   }
+  private: 
+  int socketFD;
+  struct sockaddr_in serverAddress;
+  const char * ipAddress;
+  int port;
+  bool autoConnect;
+  bool connected = false;
+  os_thread tcp_soket(threadFun,10,0);
+  string Rx;
+  bool RxArrived = false;
 };
