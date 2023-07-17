@@ -9,10 +9,12 @@
 #include "os.cpp"
 using namespace std;
 void oled_screen_funct();
+void WHILE_serial();
 OLED oled;
 TCP tcp("192.168.1.110", 8080);
 SP sp("/dev/ttyS1");
-os_thread x(oled_screen_funct,100,0);
+os_thread os_thread_oled(oled_screen_funct,100,0);
+os_thread os_thread_serial(WHILE_serial,10,0);
 void process_tx(string data) 
 {
  if(data == "<OPI SHUTDOWN>") 
@@ -38,7 +40,7 @@ void INIT_oled()
   oled.INIT(128,32,0x3C);
   oled.InvertDisplay(1);
   oled.PrintAtom();
-  x.start();
+  os_thread_oled.start();
 }
 void INIT_tcp()
 {
@@ -75,7 +77,6 @@ void WHILE_all()
   {
     this_thread::sleep_for(chrono::milliseconds(5));
     WHILE_tcp();
-    WHILE_serial();
   }
 }
 
