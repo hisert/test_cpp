@@ -53,10 +53,3 @@ unsigned char flag_enable= 0;
 unsigned char flag_start= 0;
 void (*th_ffunct)() = nullptr;
 };
-
-void asd() {
-    cout << "Thread 1 çalışıyor..." << endl;
-}
-void asd2() {
-    cout << "Thread 2 çalışıyor..." << endl;
-}
