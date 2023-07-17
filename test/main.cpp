@@ -78,7 +78,6 @@ void INIT_all()
 {
   INIT_led();
   INIT_oled();
-  INIT_threads();
   INIT_tcp();
 }
 void WHILE_all()
