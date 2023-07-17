@@ -3,131 +3,115 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <thread>
-#include <chrono>
+#include "os.cpp"
 
 using namespace std;
 
 class TCP {
-private:
-    int socketFD;
-    struct sockaddr_in serverAddress;
-    const char* ipAddress;
-    int port;
-    bool autoConnect;
-    bool connected = false;
-    thread Listener;
-    string Rx;
-    bool RxArrived = false;
-    bool go=false;
+  private: int socketFD;
+  struct sockaddr_in serverAddress;
+  const char * ipAddress;
+  int port;
+  bool autoConnect;
+  bool connected = false;
+  os_thread tcp_soket(threadFun,10,0);
+  string Rx;
+  bool RxArrived = false;
 
-public:
+  public:
 
-    TCP(const char* ipAddress, int port) : socketFD(-1), ipAddress(ipAddress), port(port) {
-        serverAddress.sin_family = AF_INET;
-        serverAddress.sin_addr.s_addr = inet_addr(ipAddress);
-        serverAddress.sin_port = htons(port);
-        autoConnect = true;
-        RxArrived = false;
-        connected = false;
-        Rx = "";
-        Listener = thread([this]() { ThreadListen(); });
-    }
-    ~TCP() {
-        closeSocket();
-    }
-    
-    bool open()
-    {
-        socketFD = socket(AF_INET, SOCK_STREAM, 0);
-        go = true;
-        if (socketFD == -1) {
-            cerr << "Hata: Soket oluşturulamadı." << endl;
-            return false;
-        }       
-        return true;
-    }
-    
-    bool connec()
-    {
-        if(connect(socketFD, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1)
-        {            
-            connected = false;
-            cerr << "Hata: Server baglanamadi" << endl;
-            return false;
-        }
-        connected = true;
-         return true;
-    }
-    
-    void sendString(const string& message) {
-        ssize_t bytesSent = send(socketFD, message.c_str(), message.length(), 0);
-        if (bytesSent == -1)
-            cerr << "Hata: Veri gönderilemedi." << endl;
-    }
+    TCP(const char * ipAddress, int port): socketFD(-1),
+  ipAddress(ipAddress),
+  port(port) {
+    serverAddress.sin_family = AF_INET;
+    serverAddress.sin_addr.s_addr = inet_addr(ipAddress);
+    serverAddress.sin_port = htons(port);
+    autoConnect = true;
+    RxArrived = false;
+    connected = false;
+    Rx = "";
+  }
+  ~TCP() {
+    tcp_soket.clear();
+  }
 
-    string receiveString() {
-        const int bufferSize = 1024;
-        char buffer[bufferSize];
+  bool open() {
+    socketFD = socket(AF_INET, SOCK_STREAM, 0);   
+    if (socketFD == -1) {
+      cerr << "Hata: Soket oluşturulamadı." << endl;
+      return false;
+    }
+    tcp_soket.start();
+    return true;
+  }
 
-        ssize_t bytesRead = recv(socketFD, buffer, bufferSize - 1, 0);
-        if (bytesRead == -1) {
-            closeSocket();
-            return "";
-        }
+  bool connec() {
+    if (connect(socketFD, (struct sockaddr * ) & serverAddress, sizeof(serverAddress)) == -1) {
+      connected = false;
+      cerr << "Hata: Server baglanamadi" << endl;
+      return false;
+    }
+    connected = true;
+    return true;
+  }
 
-        buffer[bytesRead] = '\0'; // Null karakterle sonlandır
-        return string(buffer);
+  void sendString(const string & message) {
+    ssize_t bytesSent = send(socketFD, message.c_str(), message.length(), 0);
+    if (bytesSent == -1)
+      cerr << "Hata: Veri gönderilemedi." << endl;
+  }
+
+  string receiveString() {
+    const int bufferSize = 1024;
+    char buffer[bufferSize];
+
+    ssize_t bytesRead = recv(socketFD, buffer, bufferSize - 1, 0);
+    if (bytesRead == -1) {
+      closeSocket();
+      return "";
     }
 
-    bool isOpen() const {
-        return socketFD != -1;
-    }
+    buffer[bytesRead] = '\0'; // Null karakterle sonlandır
+    return string(buffer);
+  }
 
-    void closeSocket() {
-        if (socketFD != -1) {
-            close(socketFD);
-            socketFD = -1;
-        }
-        connected = false;
-        open();
+  bool isOpen() const {
+    return socketFD != -1;
+  }
+
+  void closeSocket() {
+    if (socketFD != -1) {
+      close(socketFD);
+      socketFD = -1;
     }
-    
-    void ThreadListen() 
-    {
-     while(1) {
-         this_thread::sleep_for(chrono::milliseconds(1)); 
-         if(go ==true) {
-     if (!connected)
-     {
-       if(connec());
-       else this_thread::sleep_for(chrono::seconds(5));
-     } 
-     else {
-        if(RxArrived == false) {
-           string tempRx = receiveString();
-           if (!tempRx.empty()) {
-               if(tempRx != "") 
-               {
-                  RxArrived = true; 
-                  Rx = tempRx;
-               } 
-           }
-        }
-     }
-    } }
+    connected = false;
+    open();
+  }
+
+  void threadFun() {
+        if (!connected) {
+          if (connec());
+          else this_thread::sleep_for(chrono::seconds(5));
+        } else {
+          if (RxArrived == false) {
+            string tempRx = receiveString();
+            if (!tempRx.empty()) {
+              if (tempRx != "") {
+                RxArrived = true;
+                Rx = tempRx;
+              }
+            }
+          }
+        }        
+  }
+
+  string getRx() {
+    if (Rx == "") return "";
+    else {
+      string temp = Rx;
+      Rx = "";
+      RxArrived = false;
+      return temp;
     }
-    
-    string getRx() 
-    {
-        if (Rx == "") return "";
-        else 
-        {
-          string temp = Rx;
-          Rx = "";
-          RxArrived = false;
-          return temp;
-        }
-    }
+  }
 };
-
