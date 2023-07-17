@@ -24,7 +24,6 @@ void process_tx(string data)
 }
 void oled_screen_funct()
 {   
-
     oled.ClearDisplay();
     oled.Rectangle(0,0,127,15,1);
     oled.Rectangle(0,16,127,63,1);
@@ -35,7 +34,6 @@ void oled_screen_funct()
  //   oled.Write_Text((0 + 4),(48 + 4),"TIME->");
  //   oled.Write_Text((0 + 4 + 50),(48 + 4),getElapsedTimeInSeconds());       
     oled.Update();
-    }
 }
 void INIT_led()
 {
