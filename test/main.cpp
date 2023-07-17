@@ -15,8 +15,8 @@ OLED oled;
 TCP tcp("192.168.1.110", 8080);
 SP sp("/dev/ttyS1");
 os_thread os_thread_oled(WHILE_oled,100,0);
-os_thread os_thread_serial(WHILE_serial,10,1);
-os_thread os_thread_tcp(WHILE_tcp,10,1);
+os_thread os_thread_serial(WHILE_serial,100,1);
+os_thread os_thread_tcp(WHILE_tcp,100,1);
 void process_tx(string data) 
 {
  if(data == "<OPI SHUTDOWN>") 
@@ -75,16 +75,9 @@ void INIT_all()
   INIT_oled();
   INIT_tcp();
 }
-void WHILE_all()
-{
-  while(1)
-  {
-    this_thread::sleep_for(chrono::milliseconds(5));
-  }
-}
 
 int main()
 {  
   INIT_all();
-  WHILE_all();
+  while(1)  this_thread::sleep_for(chrono::milliseconds(100));
 }
