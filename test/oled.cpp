@@ -7,6 +7,7 @@
 #include <thread>
 #include "I2CDevice.cpp"
 #include "oled_by.h"
+#include "oled_atom.h"
 
 using namespace std;
 
