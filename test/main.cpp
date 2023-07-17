@@ -14,7 +14,7 @@ OLED oled;
 LED led(22,900,100);
 TCP tcp("192.168.1.110", 8080);
 SP sp("/dev/ttyS1");
-os_thread x(oled_screen_funct,1,1);
+os_thread x(oled_screen_funct,100,1);
 void process_tx(string data) 
 {
  if(data == "<OPI SHUTDOWN>") 
@@ -24,10 +24,7 @@ void process_tx(string data)
 }
 void oled_screen_funct()
 {   
-    oled.PrintAtom();
- // this_thread::sleep_for(chrono::milliseconds(10000)); 
-   while(1) 
-    {    
+
     oled.ClearDisplay();
     oled.Rectangle(0,0,127,15,1);
     oled.Rectangle(0,16,127,63,1);
@@ -36,10 +33,8 @@ void oled_screen_funct()
     oled.Write_Text((0 + 4),(16 + 4),"TEMP->");
     oled.Write_Text((0 + 4 +50),(16 + 4),getCPUtemperature());  
  //   oled.Write_Text((0 + 4),(48 + 4),"TIME->");
- //   oled.Write_Text((0 + 4 + 50),(48 + 4),getElapsedTimeInSeconds());
-        
+ //   oled.Write_Text((0 + 4 + 50),(48 + 4),getElapsedTimeInSeconds());       
     oled.Update();
-    this_thread::sleep_for(chrono::milliseconds(1000));
     }
 }
 void INIT_led()
@@ -50,6 +45,7 @@ void INIT_oled()
 {
   oled.INIT(128,32,0x3C);
   oled.InvertDisplay(1);
+  oled.PrintAtom();
 }
 void INIT_tcp()
 {
