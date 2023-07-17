@@ -369,7 +369,7 @@ void PrintAtom(void)
     ClearDisplay();
     Image(atomallArray[x]);
     Update();   
-    this_thread::sleep_for(chrono::milliseconds(5)); 	    
+    this_thread::sleep_for(chrono::milliseconds(1)); 	    
     }
 }
 void PrintBy(void) 
