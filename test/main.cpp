@@ -22,7 +22,7 @@ void process_tx(string data)
 }
 void oled_screen_funct()
 {   
-    oled.PrintBy();
+    oled.PrintAtom();
  // this_thread::sleep_for(chrono::milliseconds(10000)); 
    while(1) 
     {    
