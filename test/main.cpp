@@ -14,7 +14,7 @@ OLED oled;
 LED led(22,900,100);
 TCP tcp("192.168.1.110", 8080);
 SP sp("/dev/ttyS1");
-os_thread x(oled_screen_funct,100,1);
+os_thread x(oled_screen_funct,100,0);
 void process_tx(string data) 
 {
  if(data == "<OPI SHUTDOWN>") 
@@ -44,6 +44,7 @@ void INIT_oled()
   oled.INIT(128,32,0x3C);
   oled.InvertDisplay(1);
   oled.PrintAtom();
+  x.start();
 }
 void INIT_tcp()
 {
