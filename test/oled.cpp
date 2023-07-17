@@ -6,6 +6,8 @@
 #include <chrono>
 #include <thread>
 #include "I2CDevice.cpp"
+#include "oled_by.h"
+
 using namespace std;
 
 I2CDevice lcdx("/dev/i2c-0");
@@ -560,6 +562,16 @@ void PrintLogo(void)
     ClearDisplay();
     Image(couple);
     Update();
+}
+void PrintBy(void) 
+{ 
+    for(unsigned char x=0;x<53;x++)
+    {
+    ClearDisplay();
+    Image(epd_bitmap_allArray[x]);
+    Update();   
+    this_thread::sleep_for(chrono::milliseconds(20)); 	    
+    }
 }
 void Update(void)
 {
