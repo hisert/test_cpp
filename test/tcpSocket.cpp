@@ -7,7 +7,7 @@
 #include <chrono>
 
 using namespace std;
-
+void Thread_Fuc();
 class TCP {
   private: int socketFD;
   struct sockaddr_in serverAddress;
@@ -15,10 +15,9 @@ class TCP {
   int port;
   bool autoConnect;
   bool connected = false;
-  thread Listener;
   string Rx;
   bool RxArrived = false;
-  bool go = false;
+  os_thread os_thread_t(Thread_Fuc,100,0);
 
   public:
 
@@ -32,21 +31,19 @@ class TCP {
     RxArrived = false;
     connected = false;
     Rx = "";
-    Listener = thread([this]() {
-      ThreadListen();
-    });
   }
   ~TCP() {
     closeSocket();
+    os_thread_t.clear();
   }
 
   bool open() {
-    socketFD = socket(AF_INET, SOCK_STREAM, 0);
-    go = true;
+    socketFD = socket(AF_INET, SOCK_STREAM, 0);    
     if (socketFD == -1) {
       cerr << "Hata: Soket oluşturulamadı." << endl;
       return false;
     }
+    os_thread_t.start();
     return true;
   }
 
@@ -93,10 +90,7 @@ class TCP {
     open();
   }
 
-  void ThreadListen() {
-    while (1) {
-      this_thread::sleep_for(chrono::milliseconds(1));
-      if (go == true) {
+  void Thread_Fuc() {
         if (!connected) {
           if (connec());
           else this_thread::sleep_for(chrono::seconds(5));
@@ -111,8 +105,6 @@ class TCP {
             }
           }
         }
-      }
-    }
   }
 
   string getRx() {
