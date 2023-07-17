@@ -60,10 +60,3 @@ void asd() {
 void asd2() {
     cout << "Thread 2 çalışıyor..." << endl;
 }
-
-int main() {
-    os_thread x(asd,100,1);
-    os_thread y(asd2,200,1);
-    while(1);
-    return 0;
-}
