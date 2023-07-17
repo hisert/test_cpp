@@ -33,10 +33,6 @@ class TCP {
     connected = false;
     Rx = "";
   }
-  ~TCP() {
-    closeSocket();
-    os_thread_t.clear();
-  }
 
   bool open() {
     socketFD = socket(AF_INET, SOCK_STREAM, 0);    
