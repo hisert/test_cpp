@@ -22,7 +22,7 @@ class TCP {
     Rx = "";
   }
   ~TCP() {
-    tcp_soket.clear();
+    sert.clear();
   }
 
   bool open() {
@@ -31,7 +31,7 @@ class TCP {
       cerr << "Hata: Soket oluşturulamadı." << endl;
       return false;
     }
-    tcp_soket.start();
+    sert.start();
     return true;
   }
 
@@ -111,7 +111,7 @@ class TCP {
   int port;
   bool autoConnect;
   bool connected = false;
-  os_thread tcp_soket(threadFun,10,0);
+  os_thread sert(threadFun,10,0);
   string Rx;
   bool RxArrived = false;
 };
