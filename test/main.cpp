@@ -21,6 +21,8 @@ void process_tx(string data)
 {
  if(data == "<OPI SHUTDOWN>") 
   {
+     os_thread_oled.stop();
+     oled.PrintBy();
      system("shutdown now");
   }
 }
