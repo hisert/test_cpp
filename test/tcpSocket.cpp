@@ -3,23 +3,20 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <chrono>
 #include "os.cpp"
 
 using namespace std;
-os_thread os_thread_t;
-void xfunct();
+
 class TCP {
-  private: 
-  int socketFD;
+  private: int socketFD;
   struct sockaddr_in serverAddress;
   const char * ipAddress;
   int port;
   bool autoConnect;
   bool connected = false;
+  os_thread tcp_soket(threadFun,10,0);
   string Rx;
   bool RxArrived = false;
-  os_thread_t(xfunct,100,0);
 
   public:
 
@@ -34,14 +31,17 @@ class TCP {
     connected = false;
     Rx = "";
   }
+  ~TCP() {
+    tcp_soket.clear();
+  }
 
   bool open() {
-    socketFD = socket(AF_INET, SOCK_STREAM, 0);    
+    socketFD = socket(AF_INET, SOCK_STREAM, 0);   
     if (socketFD == -1) {
       cerr << "Hata: Soket oluşturulamadı." << endl;
       return false;
     }
-    os_thread_t.start();
+    tcp_soket.start();
     return true;
   }
 
@@ -88,7 +88,7 @@ class TCP {
     open();
   }
 
-  void xfunct() {
+  void threadFun() {
         if (!connected) {
           if (connec());
           else this_thread::sleep_for(chrono::seconds(5));
@@ -102,7 +102,7 @@ class TCP {
               }
             }
           }
-        }
+        }        
   }
 
   string getRx() {
