@@ -9,7 +9,12 @@
 #include "oled.cpp"
 #include "os.cpp"
 using namespace std;
-
+void oled_screen_funct();
+OLED oled;
+LED led(22,900,100);
+TCP tcp("192.168.1.110", 8080);
+SP sp("/dev/ttyS1");
+os_thread x(asd,oled_screen_funct,1);
 void process_tx(string data) 
 {
  if(data == "<OPI SHUTDOWN>") 
@@ -85,11 +90,7 @@ void WHILE_all()
     WHILE_serial();
   }
 }
-OLED oled;
-LED led(22,900,100);
-TCP tcp("192.168.1.110", 8080);
-SP sp("/dev/ttyS1");
-os_thread x(asd,oled_screen_funct,1);
+
 int main()
 {  
   INIT_all();
