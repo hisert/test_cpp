@@ -563,6 +563,16 @@ void PrintLogo(void)
     Image(couple);
     Update();
 }
+void PrintAtom(void) 
+{ 
+    for(unsigned char x=0;x<143;x++)
+    {
+    ClearDisplay();
+    Image(atomallArray[x]);
+    Update();   
+    this_thread::sleep_for(chrono::milliseconds(20)); 	    
+    }
+}
 void PrintBy(void) 
 { 
     for(unsigned char x=0;x<53;x++)
