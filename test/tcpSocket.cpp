@@ -7,7 +7,7 @@
 #include "os.cpp"
 
 using namespace std;
-void Thread_Fuc();
+void xfunct();
 class TCP {
   private: 
   int socketFD;
@@ -18,7 +18,7 @@ class TCP {
   bool connected = false;
   string Rx;
   bool RxArrived = false;
-  os_thread os_thread_t(Thread_Fuc,100,0);
+  os_thread os_thread_t(xfunct,100,0);
 
   public:
 
@@ -91,7 +91,7 @@ class TCP {
     open();
   }
 
-  void Thread_Fuc() {
+  void xfunct() {
         if (!connected) {
           if (connec());
           else this_thread::sleep_for(chrono::seconds(5));
