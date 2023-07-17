@@ -10,9 +10,8 @@ using namespace std;
 class TCP {
   public:
 
-    TCP(const char * ipAddress, int port): socketFD(-1),
-  ipAddress(ipAddress),
-  port(port) {
+    TCP(const char * ipAddress, int port): socketFD(-1), ipAddress(ipAddress),port(port)
+   {
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = inet_addr(ipAddress);
     serverAddress.sin_port = htons(port);
