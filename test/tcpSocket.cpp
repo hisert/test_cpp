@@ -78,7 +78,7 @@ class TCP {
     open();
   }
 
-  void threadFun() {
+  void thFun() {
         if (!connected) {
           if (connec());
           else this_thread::sleep_for(chrono::seconds(5));
@@ -111,7 +111,7 @@ class TCP {
   int port;
   bool autoConnect;
   bool connected = false;
-  os_thread sert(threadFun,10,0);
+  os_thread sert(thFun,10,0);
   string Rx;
   bool RxArrived = false;
 };
