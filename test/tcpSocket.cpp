@@ -7,6 +7,7 @@
 #include "os.cpp"
 
 using namespace std;
+os_thread os_thread_t;
 void xfunct();
 class TCP {
   private: 
@@ -18,7 +19,7 @@ class TCP {
   bool connected = false;
   string Rx;
   bool RxArrived = false;
-  os_thread os_thread_t(xfunct,100,0);
+  os_thread_t(xfunct,100,0);
 
   public:
 
