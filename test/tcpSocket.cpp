@@ -9,7 +9,8 @@
 using namespace std;
 void Thread_Fuc();
 class TCP {
-  private: int socketFD;
+  private: 
+  int socketFD;
   struct sockaddr_in serverAddress;
   const char * ipAddress;
   int port;
