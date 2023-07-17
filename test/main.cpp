@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstdlib>
-#include "ledAlive.cpp"
 #include "tcpSocket.cpp"
 #include "serial.cpp"
 #include "functs.cpp"
@@ -11,7 +10,6 @@
 using namespace std;
 void oled_screen_funct();
 OLED oled;
-LED led(22,900,100);
 TCP tcp("192.168.1.110", 8080);
 SP sp("/dev/ttyS1");
 os_thread x(oled_screen_funct,100,0);
@@ -34,10 +32,6 @@ void oled_screen_funct()
  //   oled.Write_Text((0 + 4),(48 + 4),"TIME->");
  //   oled.Write_Text((0 + 4 + 50),(48 + 4),getElapsedTimeInSeconds());       
     oled.Update();
-}
-void INIT_led()
-{
-  led.start();
 }
 void INIT_oled()
 {
@@ -72,7 +66,6 @@ void WHILE_serial()
 }
 void INIT_all()
 {
-  INIT_led();
   INIT_oled();
   INIT_tcp();
 }
