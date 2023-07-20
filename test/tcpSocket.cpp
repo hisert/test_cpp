@@ -56,6 +56,7 @@ class TCP {
       cerr << "Hata: Server baglanamadi" << endl;
       return false;
     }
+    cerr << "Hata: Server baglandi" << endl;
     connected = true;
     return true;
   }
