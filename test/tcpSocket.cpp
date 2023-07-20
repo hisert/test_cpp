@@ -99,7 +99,7 @@ class TCP {
       if (go == true) {
         if (!connected) {
           if (connec());
-          else this_thread::sleep_for(chrono::seconds(5));
+          else  this_thread::sleep_for(chrono::milliseconds(5000));
         } else {
           if (RxArrived == false) {
             string tempRx = receiveString();
