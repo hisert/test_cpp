@@ -40,7 +40,7 @@ void WHILE_oled()
 {   
     oled.ClearDisplay();
     oled.Rectangle(0,0,127,15,1);
-    oled.Rectangle(0,16,127,63,1);
+    oled.Rectangle(0,16,127,62,1);
     oled.Write_Text((0 + 15),(0 + 4),getSystemIPAddress());
   //  oled.Write_Text((0 + 4),(16 + 4),GetCurrentDateTime());
     oled.Write_Text((0 + 4),(16 + 4),"TEMP->");
