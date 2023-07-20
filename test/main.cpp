@@ -29,7 +29,6 @@ void process_tx(string data)
 void INIT_oled()
 {
   oled.INIT(128,32,0x3C);
-  oled.InvertDisplay(1);
   oled.PrintAtom();
   os_thread_oled.start();
 }
